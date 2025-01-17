@@ -7,7 +7,7 @@
       style = "numbers,changes,header";
       theme = "gruvbox-dark";
     };
-    extraPackages =
-      builtins.attrValues { inherit (pkgs.bat-extras) batgrep batdiff batman; };
+    # extraPackages =
+    #   builtins.attrValues { inherit (pkgs.bat-extras) batgrep batdiff batman; };
   };
 }

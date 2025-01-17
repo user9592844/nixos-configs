@@ -50,10 +50,8 @@
           inherit specialArgs;
           modules = [
             home-manager.nixosModules.home-manager
-            { home-manager.extraSpecialArgs = specialArgs; }
             {
-              environment.systemPackages =
-                [ ghostty.packages.x86_64-linux.default ];
+              home-manager.extraSpecialArgs = specialArgs;
             }
             # {
             #   nix.settings = {
