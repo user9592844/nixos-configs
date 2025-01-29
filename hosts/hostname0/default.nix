@@ -10,6 +10,7 @@
     "hosts/common/optional/gnome-desktop.nix"
     "hosts/common/optional/nil.nix"
     "hosts/common/optional/nixfmt.nix"
+    "hosts/common/optional/nixd.nix"
     "hosts/common/optional/vlc.nix"
 
     # Create users
