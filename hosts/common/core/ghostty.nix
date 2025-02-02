@@ -1,5 +1,6 @@
 { inputs, pkgs, ... }:
 
 {
-  environment.systemPackages = [ inputs.ghostty.packages.x86_64-linux.default ];
+  environment.systemPackages = with inputs;
+    [ ghostty.packages.x86_64-linux.default ];
 }
