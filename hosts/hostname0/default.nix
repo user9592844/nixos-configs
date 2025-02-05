@@ -36,6 +36,7 @@
   networking = {
     hostName = "hostname0";
     networkmanager.enable = true;
+    firewall.enable = true;
     firewall.checkReversePath = false;
   };
 
