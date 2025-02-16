@@ -13,7 +13,7 @@
       rust-lang.rust-analyzer
       serayuzgur.crates
       tamasfe.even-better-toml
-      vadimcn.vscode-lldb
+      # vadimcn.vscode-lldb
       vscodevim.vim
       yzhang.markdown-all-in-one
     ];

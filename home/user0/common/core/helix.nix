@@ -39,9 +39,11 @@
             "file-type"
           ];
           separator = "|";
-          mode.normal = "LOCKED";
-          mode.insert = "WORKING";
-          mode.select = "VISUAL SEL";
+          mode = {
+            normal = "LOCKED";
+            insert = "WORKING";
+            select = "VISUAL SEL";
+          };
         };
 
         lsp = {

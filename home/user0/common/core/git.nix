@@ -1,6 +1,6 @@
 { pkgs, lib, config, configLib, configVars, ... }:
 let
-  handle = configVars.handle;
+  inherit (configVars) handle;
   publicGitEmail = configVars.gitHubEmail;
   publicKey = "${config.home.homeDirectory}/.ssh/id_github.pub";
 in {

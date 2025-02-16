@@ -13,7 +13,7 @@
   ];
 
   home = {
-    username = configVars.username;
+    inherit (configVars) username;
     homeDirectory = "/home/${configVars.username}";
   };
 }

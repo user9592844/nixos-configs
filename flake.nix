@@ -71,5 +71,11 @@
           ];
         };
       };
+
+      devShells = forAllSystems (system:
+        let pkgs = nixpkgs.legacyPackages.${system};
+        in {
+          default = pkgs.mkShell { packages = [ pkgs.deadnix pkgs.statix ]; };
+        });
     };
 }
