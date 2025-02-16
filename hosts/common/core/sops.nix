@@ -3,7 +3,7 @@ let
   secretsDirectory = builtins.toString inputs.nix-secrets;
   secretsFile = "${secretsDirectory}/secrets.yaml";
 
-  persistFolder = configVars.persistFolder;
+  inherit (configVars) persistFolder;
   homeDirectory = if pkgs.stdenv.isLinux then
     "/home/${configVars.username}"
   else
@@ -39,7 +39,7 @@ in {
   system.activationScripts.sopsSetAgeKeyOwnership = let
     ageFolder = "${homeDirectory}/.config/sops/age";
     user = config.users.users.${configVars.username}.name;
-    group = config.users.users.${configVars.username}.group;
+    inherit (config.users.users.${configVars.username}) group;
   in ''
     mkdir -p ${ageFolder} || true
     chown -R ${user}:${group} ${homeDirectory}/.config
