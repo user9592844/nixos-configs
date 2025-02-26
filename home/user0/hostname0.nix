@@ -7,7 +7,6 @@
 
     # Optional configs
     common/optional/browsers/firefox.nix
-    common/optional/dev/vscode.nix
     common/optional/terminal/zellij.nix
     common/optional/sops.nix
   ];
