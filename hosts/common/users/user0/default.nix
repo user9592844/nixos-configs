@@ -13,8 +13,11 @@ let
 
     # Import user personal configurations
     # TODO: Change the hostname to be multi-host
-    home-manager.users.${configVars.username} = import
-      (configLib.relativeToRoot "home/${configVars.username}/hostname0.nix");
+    home-manager = {
+      backupFileExtension = "backup";
+      users.${configVars.username} = import
+        (configLib.relativeToRoot "home/${configVars.username}/hostname0.nix");
+    };
   };
 in {
   config = lib.recursiveUpdate fullUserConfig {
