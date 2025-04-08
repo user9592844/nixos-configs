@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs.follows = "nixos-cosmic/nixpkgs";
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -21,17 +22,22 @@
       inputs = { };
     };
 
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ghostty.url = "github:ghostty-org/ghostty";
 
     # Commented out temporarily due to issues with freeze during compilation
     # nixos-cosmic = {
     #   url = "github:lilyinstarlight/nixos-cosmic";
-    #   inputs.nixpkgs.follows = "nixpkgs";
+    # inputs.nixpkgs.follows = "nixpkgs";
     # };
   };
 
-  outputs =
-    { self, nixpkgs, home-manager, sops-nix, nix-secrets, ghostty, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, sops-nix, nix-secrets, ghostty
+    , firefox-addons, ... }@inputs:
     let
       inherit (self) outputs;
       forAllSystems = nixpkgs.lib.genAttrs [
@@ -55,12 +61,18 @@
           inherit specialArgs;
           modules = [
             home-manager.nixosModules.home-manager
+            { home-manager.extraSpecialArgs = specialArgs; }
             {
-              home-manager.extraSpecialArgs = specialArgs;
+              nix.settings = {
+                substituters = [ "https://ghostty.cachix.org" ];
+                trusted-public-keys = [
+                  "ghostty.cachix.org-1:QB389yTa6gTyneehvqG58y0WnHjQOqgnA+wBnpWWxns="
+                ];
+              };
             }
             # {
             #   nix.settings = {
-            #     substituters = [ "https://cosmic.cachix.org" ];
+            #     substituters = [ "https://cosmic.cachix.org/" ];
             #     trusted-public-keys = [
             #       "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE="
             #     ];

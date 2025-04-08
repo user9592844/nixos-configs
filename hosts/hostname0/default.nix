@@ -7,6 +7,7 @@
 
     # Optional configurations
     # "hosts/common/optional/cosmic-desktop.nix"
+    "hosts/common/optional/firefox.nix"
     "hosts/common/optional/gnome-desktop.nix"
     "hosts/common/optional/nil.nix"
     "hosts/common/optional/nixfmt.nix"

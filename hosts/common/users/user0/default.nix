@@ -27,8 +27,15 @@ in {
       isNormalUser = true;
       password = "hunter2";
 
-      extraGroups = [ "wheel" ]
-        ++ ifTheyExist [ "audio" "video" "docker" "git" "networkmanager" ];
+      extraGroups = [ "wheel" ] ++ ifTheyExist [
+        "audio"
+        "video"
+        "docker"
+        "disk"
+        "git"
+        "networkmanager"
+        "cdrom"
+      ];
 
       shell = pkgs.fish; # default shell
     };

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ inputs, pkgs, lib, config, ... }:
 let
   lock-false = {
     Value = false;
@@ -12,9 +12,11 @@ in {
   programs.firefox = {
     enable = true;
 
-    profiles.default = {
+    profiles.user0 = {
+      isDefault = true;
       search = {
-        default = "DuckDuckGo";
+        default = "ddg";
+        force = true;
 
         engines = {
           "Nix Packages" = {
@@ -49,85 +51,52 @@ in {
           };
         };
       };
-    };
 
-    policies = {
-      DisableTelemetry = true;
-      DisableFirefoxStudies = true;
-      EnableTrackingProtection = {
-        Value = true;
-        Locked = true;
-        Cryptomining = true;
-        Fingerprinting = true;
+      bookmarks = {
+        force = true;
+        settings = [{
+          name = "NixOS Bookmarks Toolbar";
+          toolbar = true;
+          bookmarks = [
+            {
+              name = "Nix Packages";
+              url = "https://search.nixos.org";
+            }
+            {
+              name = "NixOS Wiki";
+              url = "https://wiki.nixos.org";
+            }
+            {
+              name = "LoFi Synthwave";
+              url = "https://www.youtube.com/watch?v=4xDzrJKXOOY";
+            }
+          ];
+        }];
       };
-      DisablePocket = true;
-      DisableFirefoxAccounts = true;
-      DisableAccounts = true;
-      DisableFirefoxScreenshots = true;
-      OverrideFirstRunPage = "";
-      OverridePostUpdatePage = "";
-      DontcheckDefaultBrowser = true;
-      DisplayBookmarksToolbar = "never";
-      DisplayMenuBar = "default-off";
-      SearchBar = "unified";
 
-      # Declare Extensions
-      ExtensionSettings = {
-        "*".installation_mode = "blocked";
+      # Grab the latest XPI and build the extension
+      extensions.packages =
+        with inputs.firefox-addons.packages.${pkgs.system}; [
+          ublock-origin
+          multi-account-containers
+          downthemall
+          single-file
+          user-agent-string-switcher
+          image-search-options
+          search-by-image
+          copy-selected-links
 
-        "@testpilot-containers" = { # Multi-Account Containers
-          install_url =
-            "https://addons.mozilla.org/en-US/firefox/addon/multi-account-containers/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search";
-          installation_mode = "force_installed";
-        };
-        "extension@one-tab.com" = { # OneTab
-          install_url =
-            "https://addons.mozilla.org/en-US/firefox/addon/onetab/";
-          installation_mode = "force_installed";
-        };
-        "uBlock0@raymondhill.net" = { # uBlock Origin
-          install_url =
-            "https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/";
-          installation_mode = "force_installed";
-        };
-      };
-      Preferences = {
-        "browser.contentblocking.category" = {
-          Value = "strict";
-          Status = "locked";
-        };
-        "extensions.pocket.enabled" = lock-false;
-        "browser.formfill.enable" = lock-false;
-        "browser.search.suggest.enabled" = lock-false;
-        "browser.search.suggest.enabled.private" = lock-false;
-        "browser.urlbar.suggest.searches" = lock-false;
-        "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
-        "browser.newtabpage.activity-stream.feeds.section.topstories" =
-          lock-false;
-        "browser.newtabpage.activity-stream.feeds.snippets" = lock-false;
-        "browser.newtabpage.activity-stream.section.highlights.includePocket" =
-          lock-false;
+          # Not found
+          # bulk-media-downloader
+          # fireshot
+          # nimbus
+          # resurrect-pages
+          # view-page-archive
 
-        "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" =
-          lock-false;
-        "browser.newtabpage.activity-stream.section.highlights.includeDownloads" =
-          lock-false;
-        "browser.newtabpage.activity-stream.section.highlights.includeVisited" =
-          lock-false;
-        "browser.newtabpage.activity-stream.showSponsored" = lock-false;
-        "browser.newtabpage.activity-stream.system.showSponsored" = lock-false;
-        "browser.newtabpage.activity-stream.showSponsoredTopSites" = lock-false;
-
-        "privacy.donottrackheader.enabled" = lock-true;
-        "privacy.clearSiteData.historyFormDataAndDownloads" = lock-true;
-        "privacy.clearSiteData.cache" = lock-true;
-        "privacy.clearSiteData.cookiesAndStorage" = lock-true;
-        "privacy.clearSiteData.siteSettings" = lock-true;
-        "privacy.clearHistory.cache" = lock-true;
-        "privacy.clearHistory.cookiesAndStorage" = lock-true;
-        "privacy.clearHistory.historyFormDataAndDownloads" = lock-true;
-        "privacy.clearHistory.siteSettings" = lock-true;
-      };
+          # allowUnfree needed
+          # video-downloadhelper
+          # onetab
+        ];
     };
   };
 }
