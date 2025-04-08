@@ -4,56 +4,56 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules =
+    [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "sg" ];
   boot.extraModulePackages = [ ];
 
   # Enable BTRFS support
   boot.supportedFilesystems = [ "btrfs" ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
-      fsType = "btrfs";
-      options = [ "subvol=root" "compress=zstd" "noatime" ];
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
+    fsType = "btrfs";
+    options = [ "subvol=root" "compress=zstd" "noatime" ];
+  };
 
-  boot.initrd.luks.devices."nixos".device = "/dev/disk/by-uuid/d5884eed-c246-4700-b63a-969b24f895b7";
+  boot.initrd.luks.devices."nixos".device =
+    "/dev/disk/by-uuid/d5884eed-c246-4700-b63a-969b24f895b7";
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
-      fsType = "btrfs";
-      options = [ "subvol=home" "compress=zstd" "noatime" ];
-    };
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
+    fsType = "btrfs";
+    options = [ "subvol=home" "compress=zstd" "noatime" ];
+  };
 
-  fileSystems."/nix" =
-    { device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
-      fsType = "btrfs";
-      options = [ "subvol=nix" "compress=zstd" "noatime" ];
-    };
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
+    fsType = "btrfs";
+    options = [ "subvol=nix" "compress=zstd" "noatime" ];
+  };
 
-  fileSystems."/persist" =
-    { device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
-      fsType = "btrfs";
-      options = [ "subvol=persist" "compress=zstd" "noatime" ];
-    };
+  fileSystems."/persist" = {
+    device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
+    fsType = "btrfs";
+    options = [ "subvol=persist" "compress=zstd" "noatime" ];
+  };
 
-  fileSystems."/var/log" =
-    { device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
-      fsType = "btrfs";
-      options = [ "subvol=log" "compress=zstd" "noatime" ];
-      neededForBoot = true;
-    };
+  fileSystems."/var/log" = {
+    device = "/dev/disk/by-uuid/e3422aec-b571-4761-b0ae-94660811b940";
+    fsType = "btrfs";
+    options = [ "subvol=log" "compress=zstd" "noatime" ];
+    neededForBoot = true;
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/8772-7402";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/8772-7402";
+    fsType = "vfat";
+    options = [ "fmask=0022" "dmask=0022" ];
+  };
 
   swapDevices = [ ];
 
@@ -66,5 +66,6 @@
   # networking.interfaces.wlp4s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
