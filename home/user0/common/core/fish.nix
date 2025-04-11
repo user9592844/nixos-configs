@@ -13,13 +13,13 @@
     '';
     functions = {
       # GCC Aliases
-      gcc = "gcc -Wall -Wextra -Werror -Wpedantic $argv";
+      gcc = "command gcc -Wall -Wextra -Werror -Wpedantic $argv";
       gcc-asm = "gcc -c $argv";
       gcc-com = "gcc -S $argv";
       gcc-pre = "gcc -E $argv";
 
       # G++ Aliases
-      "g++" = "g++ -Wall -Wextra -Werror -Wpedantic $argv";
+      "g++" = "command g++ -Wall -Wextra -Werror -Wpedantic $argv";
       "g++-asm" = "g++ -c $argv";
       "g++-com" = "g++ -S $argv";
       "g++-pre" = "g++ -E $argv";
@@ -40,9 +40,9 @@
       gsub = "git submodule $argv";
 
       # Grep Aliases
-      grep = "grep --color=auto $argv";
-      egrep = "egrep --color=auto $argv";
-      fgrep = "fgrep --color=auto $argv";
+      grep = "command grep --color=auto $argv";
+      egrep = "command egrep --color=auto $argv";
+      fgrep = "command fgrep --color=auto $argv";
 
       # Ripgrep Aliases
       rg = "command rg --color=auto -Suuu $argv";
